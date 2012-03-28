@@ -1,0 +1,16 @@
+{% extends 'EPSDemoBundle::eps_layout.html.twig' %}
+
+
+
+{% block body %}
+<h1>Grid</h1>
+
+{{jqgrid_js(grid1)}}
+{{jqgrid_js(grid2)}}
+
+<br/>
+
+<a href="{{path('viewgrid')}}">Simple grid</a>
+
+
+{% endblock body %}

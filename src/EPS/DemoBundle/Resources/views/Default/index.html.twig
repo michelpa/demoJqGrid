@@ -1,0 +1,17 @@
+{% extends 'EPSDemoBundle::eps_layout.html.twig' %}
+
+
+
+{% block body %}
+<h1>Grid</h1>
+
+{{jqgrid_js(grid)}}
+
+
+<br/>
+<a href="{{path('multiviewgrid')}}">Multi grid</a>
+<br/>
+<a href="{{path('gene')}}">Generate dummy data</a>
+
+
+{% endblock body %}

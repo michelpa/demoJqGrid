@@ -1,0 +1,3 @@
+[submodule "src/EPS/JqGridBundle"]
+	path = src/EPS/JqGridBundle
+	url = git@github.com:michelpa/JqGridBundle.git

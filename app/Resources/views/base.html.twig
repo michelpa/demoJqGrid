@@ -3,8 +3,28 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/i18n/jquery-ui-i18n.min.js"></script>
+         
+         
+         {% javascripts 'bundles/epsjqgrid/js/i18n/grid.locale-fr.js'                        
+                        'bundles/epsjqgrid/js/jquery.jqGrid.min.js'
+                            %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+        
+        {% block stylesheets %}
+                 {% stylesheets 'bundles/epsjqgrid/css/ui.jqgrid.css'
+                     filter='cssrewrite' %}
+                    <link rel="stylesheet" type="text/css"  href="{{ asset_url }}" />
+                 {% endstylesheets %}   
+        {% endblock stylesheets %}
+                    
     </head>
     <body>
         {% block body %}{% endblock %}
