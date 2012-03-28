@@ -17,3 +17,5 @@ Requirement: knp_paginator (included in deps)
 Now go to http://yourhost/app_dev.php/ to see the grid in action.
 
 Everything is in the DefaultController
+
+<img src="http://i43.tinypic.com/119unnp.png" />
