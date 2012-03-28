@@ -1,0 +1,15 @@
+[parameters]
+    database_driver   = pdo_mysql
+    database_host     = localhost
+    database_port     =
+    database_name     = demojqgrid
+    database_user     = user	
+    database_password = password
+
+    mailer_transport  = smtp
+    mailer_host       = localhost
+    mailer_user       =
+    mailer_password   =
+
+    locale            = fr
+    secret            = YourSecretKey
