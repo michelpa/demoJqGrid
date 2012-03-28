@@ -1,0 +1,14 @@
+/web/bundles/
+/app/bootstrap*
+/app/cache/*
+/app/logs/*
+/vendor/
+/app/config/parameters.ini
+/nbproject/
+/web/js/
+/web/css/
+.project
+.buildpath
+*.php~
+*.twig~
+git-notify
