@@ -22,8 +22,8 @@ class DefaultController extends Controller {
 
 
         $qb = $em->createQueryBuilder()
-                ->from('EPSDemoBundle:Author', 'a')
-                ->leftJoin('a.posts', 'p')
+                ->from('EPSDemoBundle:Post', 'p')
+                ->leftJoin('p.author', 'a')
                 ->leftJoin('p.comments', 'c')
                 ->select('a.name, p.id, p.datepost, p.title, count(c.id) as nbcomments')
                 ->groupBy('p.id');
@@ -118,8 +118,8 @@ class DefaultController extends Controller {
 
 
         $qb = $em->createQueryBuilder()
-                ->from('EPSDemoBundle:Author', 'a')
-                ->leftJoin('a.posts', 'p')
+               ->from('EPSDemoBundle:Post', 'p')
+                ->leftJoin('p.author', 'a')
                 ->leftJoin('p.comments', 'c')
                 ->select('a.name, p.id, p.datepost, p.title, count(c.id) as nbcomments')
                 ->groupBy('p.id');
@@ -168,8 +168,8 @@ class DefaultController extends Controller {
 
 
         $qb = $em->createQueryBuilder()
-                ->from('EPSDemoBundle:Author', 'a')
-                ->leftJoin('a.posts', 'p')
+          	->from('EPSDemoBundle:Post', 'p')
+                ->leftJoin('p.author', 'a')
                 ->leftJoin('p.comments', 'c')
                 ->select('a.name, p.id, p.datepost, p.title, count(c.id) as nbcomments')
                 ->groupBy('p.id');
