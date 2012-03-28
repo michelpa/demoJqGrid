@@ -55,7 +55,7 @@ class DefaultController extends Controller {
         $grid->addColumn('Author', array('name' => 'name', 'index' => 'a.name', 'width' => '150', 'stype' => 'select', 'searchoptions' => array('value' => $lstauthor)));
         $grid->addColumn('Post', array('name' => 'title', 'index' => 'p.title', 'width' => '150'));
         $grid->addColumn('Date post', array('name' => 'datepost', 'index' => 'p.datepost', 'formatter' => 'date', 'datepicker' => true));
-        $grid->addColumn('Nb comments', array('name' => 'nbcomments', 'index' => 'nbcomments', 'search' => false));
+        $grid->addColumn('Nb comments', array('name' => 'nbcomments', 'index' => 'nbcomments', 'search' => true, 'having' => 'count(c.id)'));
 
         return ($grid->render());
     }
@@ -118,7 +118,7 @@ class DefaultController extends Controller {
 
 
         $qb = $em->createQueryBuilder()
-               ->from('EPSDemoBundle:Post', 'p')
+                ->from('EPSDemoBundle:Post', 'p')
                 ->leftJoin('p.author', 'a')
                 ->leftJoin('p.comments', 'c')
                 ->select('a.name, p.id, p.datepost, p.title, count(c.id) as nbcomments')
@@ -139,11 +139,11 @@ class DefaultController extends Controller {
         $grid->setName('gridpost1');
         $grid->setCaption('list of posts');
         $grid->setOptions(array('height' => 'auto', 'width' => '910'));
-        $grid->setRouteForced($this->get('router')->generate('grid1'));
         $grid->setHideIfEmpty(false);
 
         //MANDATORY
         $grid->setSource($qb);
+        $grid->setRouteForced($this->get('router')->generate('grid1'));
 
         //COLUMNS DEFINITION
         $grid->addColumn('Action', array('twig' => 'EPSDemoBundle:Default:_testgridaction.html.twig', 'name' => 'action', 'resize' => false, 'sortable' => false, 'search' => false, 'width' => '50'));
@@ -151,7 +151,7 @@ class DefaultController extends Controller {
         $grid->addColumn('Author', array('name' => 'name', 'index' => 'a.name', 'width' => '150', 'stype' => 'select', 'searchoptions' => array('value' => $lstauthor)));
         $grid->addColumn('Post', array('name' => 'title', 'index' => 'p.title', 'width' => '150'));
         $grid->addColumn('Date post', array('name' => 'datepost', 'index' => 'p.datepost', 'formatter' => 'date', 'datepicker' => true));
-        $grid->addColumn('Nb comments', array('name' => 'nbcomments', 'index' => 'nbcomments', 'search' => false));
+        $grid->addColumn('Nb comments', array('name' => 'nbcomments', 'index' => 'nbcomments', 'search' => true, 'having' => 'count(c.id)'));
 
         if ($returnGrid) {
             return $grid;
@@ -168,7 +168,7 @@ class DefaultController extends Controller {
 
 
         $qb = $em->createQueryBuilder()
-          	->from('EPSDemoBundle:Post', 'p')
+                ->from('EPSDemoBundle:Post', 'p')
                 ->leftJoin('p.author', 'a')
                 ->leftJoin('p.comments', 'c')
                 ->select('a.name, p.id, p.datepost, p.title, count(c.id) as nbcomments')
@@ -189,11 +189,11 @@ class DefaultController extends Controller {
         $grid->setName('gridpost2');
         $grid->setCaption('list of posts');
         $grid->setOptions(array('height' => 'auto', 'width' => '910'));
-        $grid->setRouteForced($this->get('router')->generate('grid2'));
         $grid->setHideIfEmpty(false);
 
         //MANDATORY
         $grid->setSource($qb);
+        $grid->setRouteForced($this->get('router')->generate('grid2'));
 
         //COLUMNS DEFINITION
         $grid->addColumn('Action', array('twig' => 'EPSDemoBundle:Default:_testgridaction.html.twig', 'name' => 'action', 'resize' => false, 'sortable' => false, 'search' => false, 'width' => '50'));
@@ -201,7 +201,7 @@ class DefaultController extends Controller {
         $grid->addColumn('Author', array('name' => 'name', 'index' => 'a.name', 'width' => '150', 'stype' => 'select', 'searchoptions' => array('value' => $lstauthor)));
         $grid->addColumn('Post', array('name' => 'title', 'index' => 'p.title', 'width' => '150'));
         $grid->addColumn('Date post', array('name' => 'datepost', 'index' => 'p.datepost', 'formatter' => 'date', 'datepicker' => true));
-        $grid->addColumn('Nb comments', array('name' => 'nbcomments', 'index' => 'nbcomments', 'search' => false));
+        $grid->addColumn('Nb comments', array('name' => 'nbcomments', 'index' => 'nbcomments', 'search' => true, 'having' => 'count(c.id)'));
 
         if ($returnGrid) {
             return $grid;
