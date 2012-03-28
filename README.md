@@ -12,7 +12,6 @@ Requirement: knp_paginator (included in deps)
 + ./app/console doctrine:datab:create 
 + ./app/console doctrine:schema:create
 
-Now go to http://yourhost/app_dev.php/gene to generate dummy datas
-And then to http://yourhost/app_dev.php/ to see the grid
+Now go to http://yourhost/app_dev.php/ to see the grid in action.
 
 Everything is in the DefaultController
