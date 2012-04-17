@@ -13,6 +13,7 @@ Requirement: knp_paginator (included in deps)
 + ./bin/vendors install
 + ./app/console doctrine:datab:create 
 + ./app/console doctrine:schema:create
++ ./app/console assets:install --symlink web
 
 Now go to http://yourhost/app_dev.php/ to see the grid in action.
 
