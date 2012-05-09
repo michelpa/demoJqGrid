@@ -58,3 +58,7 @@ swiftmailer:
 jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
+    
+eps_jq_grid:
+    datepicker_format: dd/mm/yy
+    datepickerphp_format: d/m/Y
