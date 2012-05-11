@@ -205,24 +205,31 @@ class DefaultController extends Controller
 
         $request = $this->getRequest();
 
-        $value = $request->get('term');
+        if ($request->isXmlHttpRequest()) {
 
-        $em = $this->getDoctrine()->getEntityManager();
-        $posts = $em->getRepository('EPSDemoBundle:Post')->findAjaxValue($value);
+            $value = $request->get('term');
 
-        $json = array();
+            $em = $this->getDoctrine()->getEntityManager();
+            $posts = $em->getRepository('EPSDemoBundle:Post')->findAjaxValue($value);
 
-        foreach ($posts as $post) {
-            $json[] = array(
-                'label' => $post->getTitle(), 'value' => $post->getTitle()
-            );
+            $json = array();
+
+            foreach ($posts as $post) {
+                $json[] = array(
+                    'label' => $post->getTitle(), 'value' => $post->getTitle()
+                );
+            }
+
+            $response = new Response();
+
+            $response->setContent(json_encode($json));
+            
+            return $response;
+        } else {
+            return new Response('Forbidden', 403);
+
         }
 
-        $response = new Response();
-
-        $response->setContent(json_encode($json));
-
-        return $response;
     }
 
 }
