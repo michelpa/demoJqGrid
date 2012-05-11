@@ -1,33 +1,29 @@
 <?php
 
 namespace EPS\DemoBundle\Controller;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 use EPS\JqGridBundle\Grid\Grid;
 use EPS\DemoBundle\Entity\Author;
 use EPS\DemoBundle\Entity\Post;
 use EPS\DemoBundle\Entity\Comment;
 
-class DefaultController extends Controller {
+class DefaultController extends Controller
+{
 
     /**
      * @Route("/", name="viewgrid")
      * @Template()
      */
-    public function indexAction() {
+    public function indexAction()
+    {
 
         $em = $this->getDoctrine()->getEntityManager();
 
-
-        $qb = $em->createQueryBuilder()
-                ->from('EPSDemoBundle:Post', 'p')
-                ->leftJoin('p.author', 'a')
-                ->leftJoin('p.comments', 'c')
-                ->select('a.name, p.id, p.datepost, p.title, count(c.id) as nbcomments')
-                ->groupBy('p.id');
-
+        $qb = $em->createQueryBuilder()->from('EPSDemoBundle:Post', 'p')->leftJoin('p.author', 'a')->leftJoin('p.comments', 'c')
+                 ->select('a.name, p.id, p.datepost, p.title, count(c.id) as nbcomments')->groupBy('p.id');
 
         $authors = $em->getRepository('EPSDemoBundle:Author')->findAll();
 
@@ -53,7 +49,7 @@ class DefaultController extends Controller {
         $grid->addColumn('Action', array('twig' => 'EPSDemoBundle:Default:_testgridaction.html.twig', 'name' => 'action', 'resize' => false, 'sortable' => false, 'search' => false, 'width' => '50'));
         $grid->addColumn('ID', array('name' => 'id', 'index' => 'p.id', 'hidden' => true, 'sortable' => false, 'search' => false));
         $grid->addColumn('Author', array('name' => 'name', 'index' => 'a.name', 'width' => '150', 'stype' => 'select', 'searchoptions' => array('value' => $lstauthor)));
-        $grid->addColumn('Post', array('name' => 'title', 'index' => 'p.title', 'width' => '150'));
+        $grid->addColumn('Post', array('name' => 'title', 'index' => 'p.title', 'autocomplete' => 'ajax_title', 'width' => '150'));
         $grid->addColumn('Date post', array('name' => 'datepost', 'index' => 'p.datepost', 'formatter' => 'date', 'datepicker' => true));
         $grid->addColumn('Nb comments', array('name' => 'nbcomments', 'index' => 'nbcomments', 'search' => true, 'having' => 'count(c.id)'));
 
@@ -64,13 +60,13 @@ class DefaultController extends Controller {
      * @Route("/multi", name="multiviewgrid")
      * @Template()
      */
-    public function multigridAction() {
+    public function multigridAction()
+    {
         $grid1 = $this->getGrid1(true);
         $grid2 = $this->getGrid2(true);
 
         return array(
-            'grid1' => $grid1,
-            'grid2' => $grid2,
+            'grid1' => $grid1, 'grid2' => $grid2,
         );
     }
 
@@ -78,7 +74,8 @@ class DefaultController extends Controller {
      * @Route("/gene", name="gene")
      * @Template()
      */
-    public function geneDataAction() {
+    public function geneDataAction()
+    {
 
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -113,17 +110,12 @@ class DefaultController extends Controller {
     /**
      * @Route("/grid1", name="grid1")
      */
-    public function getGrid1($returnGrid = false) {
+    public function getGrid1($returnGrid = false)
+    {
         $em = $this->getDoctrine()->getEntityManager();
 
-
-        $qb = $em->createQueryBuilder()
-                ->from('EPSDemoBundle:Post', 'p')
-                ->leftJoin('p.author', 'a')
-                ->leftJoin('p.comments', 'c')
-                ->select('a.name, p.id, p.datepost, p.title, count(c.id) as nbcomments')
-                ->groupBy('p.id');
-
+        $qb = $em->createQueryBuilder()->from('EPSDemoBundle:Post', 'p')->leftJoin('p.author', 'a')->leftJoin('p.comments', 'c')
+                 ->select('a.name, p.id, p.datepost, p.title, count(c.id) as nbcomments')->groupBy('p.id');
 
         $authors = $em->getRepository('EPSDemoBundle:Author')->findAll();
 
@@ -163,17 +155,12 @@ class DefaultController extends Controller {
     /**
      * @Route("/grid2", name="grid2")
      */
-    public function getGrid2($returnGrid = false) {
+    public function getGrid2($returnGrid = false)
+    {
         $em = $this->getDoctrine()->getEntityManager();
 
-
-        $qb = $em->createQueryBuilder()
-                ->from('EPSDemoBundle:Post', 'p')
-                ->leftJoin('p.author', 'a')
-                ->leftJoin('p.comments', 'c')
-                ->select('a.name, p.id, p.datepost, p.title, count(c.id) as nbcomments')
-                ->groupBy('p.id');
-
+        $qb = $em->createQueryBuilder()->from('EPSDemoBundle:Post', 'p')->leftJoin('p.author', 'a')->leftJoin('p.comments', 'c')
+                 ->select('a.name, p.id, p.datepost, p.title, count(c.id) as nbcomments')->groupBy('p.id');
 
         $authors = $em->getRepository('EPSDemoBundle:Author')->findAll();
 
@@ -208,6 +195,34 @@ class DefaultController extends Controller {
         } else {
             return $grid->render();
         }
+    }
+
+    /**
+     * @Route("/ajax_titlte", name="ajax_title")
+     */
+    public function ajaxTitleAction()
+    {
+
+        $request = $this->getRequest();
+
+        $value = $request->get('term');
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $posts = $em->getRepository('EPSDemoBundle:Post')->findAjaxValue($value);
+
+        $json = array();
+
+        foreach ($posts as $post) {
+            $json[] = array(
+                'label' => $post->getTitle(), 'value' => $post->getTitle()
+            );
+        }
+
+        $response = new Response();
+
+        $response->setContent(json_encode($json));
+
+        return $response;
     }
 
 }

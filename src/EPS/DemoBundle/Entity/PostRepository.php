@@ -1,7 +1,6 @@
 <?php
 
 namespace EPS\DemoBundle\Entity;
-
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,4 +11,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class PostRepository extends EntityRepository
 {
+
+    public function findAjaxValue($value)
+    {
+        $qb = $this->createQueryBuilder('p')->where('p.title like :title')->setParameter('title', '%' . $value . '%')->setMaxResults(10);
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }
